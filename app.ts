@@ -29,8 +29,8 @@ async function display(){
 async function todoThings(){
     console.log('Items to do: ');
     for (let i=0;i<itemsList.length;i++){
-        console.log(`${i+1}: ${itemsList[i]}\nTime of Creation: ${timeForItems[i].toLocaleDateString()},
-Time to complete: ${timeofRemoval[i].toLocaleDateString()}`)
+        console.log(`${i+1}: ${itemsList[i]}\nTime of Creation: ${timeForItems[i].toLocaleString()},
+Time to complete: ${timeofRemoval[i].toLocaleString()}`)
     };
 }
 
@@ -173,7 +173,7 @@ async function Menu(){
             case 'Add Tasks':
                 await addItems();
                 break;
-            case 'Remove Items':
+            case 'Remove Tasks':
                 await removeItems();
                 break;
         }
