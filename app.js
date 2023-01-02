@@ -1,4 +1,5 @@
 import inquirer from "inquirer";
+import chalk from "chalk";
 import chalkAnimation from "chalk-animation";
 var itemsList = [];
 var timeForItems = [];
@@ -22,8 +23,9 @@ async function display() {
 async function todoThings() {
     console.log('Items to do: ');
     for (let i = 0; i < itemsList.length; i++) {
-        console.log(`${i + 1}: ${itemsList[i]}\nTime of Creation: ${timeForItems[i].toLocaleString()},
-Time to complete: ${timeofRemoval[i].toLocaleString()}`);
+        console.log(chalk.bgGrey(`${i + 1}: ${itemsList[i]}`));
+        console.log(`Time of Creation: ${timeForItems[i].toLocaleString()}`);
+        console.log(chalk.bgMagenta(`Time to complete: ${timeofRemoval[i].toLocaleString()}`));
     }
     ;
 }
@@ -46,8 +48,9 @@ async function addItems() {
     } while (doAgain.doAgain == 'Yes');
     console.log('');
     for (let i = 0; i < itemsList.length; i++) {
-        console.log(`${i + 1}: ${itemsList[i]}\nTime added: ${timeForItems[i].toLocaleString()}
-Time to complete: ${timeofRemoval[i].toLocaleString()}`);
+        console.log(chalk.bgGray(`${i + 1}: ${itemsList[i]}`));
+        console.log(`Time added: ${timeForItems[i].toLocaleString()}`);
+        console.log(chalk.bgMagenta(`Time to complete: ${timeofRemoval[i].toLocaleString()}`));
     }
     ;
 }
@@ -55,7 +58,7 @@ Time to complete: ${timeofRemoval[i].toLocaleString()}`);
 async function addTime() {
     let date = new Date();
     timeForItems.push(date);
-    console.log('\nSet the time to do it:');
+    console.log(chalk.bgBlue('\nSet the time to do it:'));
     let addingTime = await inquirer.prompt([{
             name: 'Day',
             type: 'input',
@@ -86,42 +89,27 @@ async function addTime() {
 }
 ///////////////////////////////////////////////////////////////////////////////////
 async function removeItems() {
-    let performOperation = await inquirer.prompt([{
-            name: 'performOperation',
-            type: 'list',
-            message: 'Do you want to remove any tasks?',
-            choices: ['Yes', 'No']
-        }]);
-    if (performOperation.performOperation == 'Yes') {
-        do {
-            let itemRemove = await inquirer.prompt([{
-                    name: 'itemRemove',
-                    type: 'list',
-                    message: 'Choose the task to remove',
-                    choices: itemsList
-                }]);
-            let indexofItem = itemsList.indexOf(itemRemove);
-            itemsList.splice(indexofItem, 1);
-            let dateRemoved = new Date();
-            console.log(`Time removed: `, dateRemoved.toLocaleString());
-            var DoAgain = await inquirer.prompt([{
-                    name: 'DoAgain',
-                    type: 'list',
-                    message: 'Do you want to remove more tasks?',
-                    choices: ['Yes', 'No']
-                }]);
-        } while (DoAgain.DoAgain == 'Yes');
-        console.log('');
-        for (let i = 0; i < itemsList.length; i++) {
-            console.log(`Things still to do: ${itemsList[i]}`);
-        }
-    }
-    else {
-        console.log('');
-        for (let i = 0; i < itemsList.length; i++) {
-            console.log(`Things you have to do: ${itemsList[i]}`);
-        }
-        console.log('Best of Luck');
+    do {
+        let itemRemove = await inquirer.prompt([{
+                name: 'itemRemove',
+                type: 'list',
+                message: 'Choose the task to remove',
+                choices: itemsList
+            }]);
+        let indexofItem = itemsList.indexOf(itemRemove);
+        itemsList.splice(indexofItem, 1);
+        let dateRemoved = new Date();
+        console.log(chalk.bgRed(`Time removed: `, dateRemoved.toLocaleString()));
+        var DoAgain = await inquirer.prompt([{
+                name: 'DoAgain',
+                type: 'list',
+                message: 'Do you want to remove more tasks?',
+                choices: ['Yes', 'No']
+            }]);
+    } while (DoAgain.DoAgain == 'Yes');
+    console.log('');
+    for (let i = 0; i < itemsList.length; i++) {
+        console.log(chalk.bgGray(`Things still to do: ${itemsList[i]}`));
     }
 }
 ///////////////////////////////////////////////////////////////////////////////////
